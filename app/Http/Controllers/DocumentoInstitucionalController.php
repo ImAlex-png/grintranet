@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\DocumentoInstitucional;
 use App\Models\Etiqueta;
+use App\Models\Categoria;
 use App\Http\Requests\StoreDocumentoInstitucionalRequest;
 use App\Http\Requests\UpdateDocumentoInstitucionalRequest;
 use Illuminate\Http\Request;
