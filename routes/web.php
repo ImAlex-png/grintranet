@@ -76,11 +76,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Documentos Institucionales
     Route::get('documentos', [DocumentoInstitucionalController::class, 'index'])->name('documentos.index');
-    Route::get('documentos/{documento}', [DocumentoInstitucionalController::class, 'show'])->name('documentos.show');
 
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('documentos', DocumentoInstitucionalController::class)->except(['index', 'show']);
     });
+
+    Route::get('documentos/{documento}', [DocumentoInstitucionalController::class, 'show'])->name('documentos.show');
 
     // AulaPass Integration
     Route::middleware(['role:admin|profesor|conserje'])->group(function () {
