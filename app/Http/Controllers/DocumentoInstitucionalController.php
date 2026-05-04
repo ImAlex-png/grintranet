@@ -20,7 +20,8 @@ class DocumentoInstitucionalController extends Controller
     public function create()
     {
         $etiquetas = Etiqueta::all();
-        return view('documentos.create', compact('etiquetas'));
+        $categorias = Categoria::all();
+        return view('documentos.create', compact('etiquetas', 'categorias'));
     }
 
     public function store(StoreDocumentoInstitucionalRequest $request)
@@ -29,6 +30,10 @@ class DocumentoInstitucionalController extends Controller
         
         if ($request->has('etiquetas')) {
             $documento->etiquetas()->sync($request->etiquetas);
+        }
+
+        if ($request->has('categorias')) {
+            $documento->categorias()->sync($request->categorias);
         }
 
         return redirect()->route('documentos.index')
@@ -43,7 +48,8 @@ class DocumentoInstitucionalController extends Controller
     public function edit(DocumentoInstitucional $documento)
     {
         $etiquetas = Etiqueta::all();
-        return view('documentos.edit', compact('documento', 'etiquetas'));
+        $categorias = Categoria::all();
+        return view('documentos.edit', compact('documento', 'etiquetas', 'categorias'));
     }
 
     public function update(UpdateDocumentoInstitucionalRequest $request, DocumentoInstitucional $documento)
@@ -54,6 +60,10 @@ class DocumentoInstitucionalController extends Controller
             $documento->etiquetas()->sync($request->etiquetas);
         }
 
+        if ($request->has('categorias')) {
+            $documento->categorias()->sync($request->categorias);
+        }
+
         return redirect()->route('documentos.index')
             ->with('success', 'Documento actualizado correctamente.');
     }
@@ -61,6 +71,7 @@ class DocumentoInstitucionalController extends Controller
     public function destroy(DocumentoInstitucional $documento)
     {
         $documento->etiquetas()->detach();
+        $documento->categorias()->detach();
         $documento->delete();
 
         return redirect()->route('documentos.index')

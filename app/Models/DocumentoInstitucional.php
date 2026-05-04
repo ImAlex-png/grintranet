@@ -23,4 +23,9 @@ class DocumentoInstitucional extends Model
     {
         return $this->belongsToMany(Etiqueta::class, 'documento_etiqueta', 'documento_id', 'etiqueta_id');
     }
+
+    public function categorias()
+    {
+        return $this->belongsToMany(Categoria::class, 'documento_categoria', 'documento_id', 'categoria_id');
+    }
 }

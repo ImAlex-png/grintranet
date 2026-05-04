@@ -47,16 +47,29 @@
                     </div>
 
                     <div>
-                        <label for="etiquetas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Etiquetas</label>
-                        <select name="etiquetas[]" id="etiquetas" multiple
-                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3 h-32">
+                        <label for="etiquetas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Etiquetas (Opcional)</label>
+                        <select name="etiquetas[]" id="etiquetas" multiple 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
                             @foreach($etiquetas as $etiqueta)
-                                <option value="{{ $etiqueta->id }}" {{ $documento->etiquetas->contains($etiqueta->id) || collect(old('etiquetas'))->contains($etiqueta->id) ? 'selected' : '' }}>
-                                    {{ $etiqueta->nombre }}
+                                <option value="{{ $etiqueta->id }}" {{ $documento->etiquetas->contains($etiqueta->id) ? 'selected' : '' }}>
+                                    #{{ $etiqueta->nombre }}
                                 </option>
                             @endforeach
                         </select>
-                        <p class="text-xs text-gray-500 mt-2">Mantén pulsado Ctrl (o Cmd en Mac) para seleccionar varias.</p>
+                        <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
+                    </div>
+
+                    <div>
+                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías (Opcional)</label>
+                        <select name="categorias[]" id="categorias" multiple 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}" {{ $documento->categorias->contains($categoria->id) ? 'selected' : '' }}>
+                                    [{{ ucfirst(str_replace('_', ' ', $categoria->tipo)) }}] {{ $categoria->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
                     </div>
 
                     <div class="pt-4">
@@ -72,12 +85,18 @@
 
 <script>
     // Permitir selección múltiple sin pulsar Ctrl
-    document.getElementById('etiquetas').onmousedown = function(e) {
-        e.preventDefault();
-        var scroll = this.scrollTop;
-        e.target.selected = !e.target.selected;
-        setTimeout(() => this.scrollTop = scroll, 0);
-        this.focus();
+    const toggleSelect = (id) => {
+        const el = document.getElementById(id);
+        el.onmousedown = function(e) {
+            e.preventDefault();
+            var scroll = this.scrollTop;
+            e.target.selected = !e.target.selected;
+            setTimeout(() => this.scrollTop = scroll, 0);
+            this.focus();
+        };
     };
+
+    toggleSelect('etiquetas');
+    toggleSelect('categorias');
 </script>
 @endsection

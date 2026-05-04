@@ -4,9 +4,17 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Documentos Institucionales</h1>
-        <a href="{{ route('documentos.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
-            + Nuevo Documento
-        </a>
+        <div class="flex space-x-4">
+            <a href="{{ route('categorias.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
+                Categorías
+            </a>
+            <a href="{{ route('etiquetas.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
+                Etiquetas
+            </a>
+            <a href="{{ route('documentos.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                + Nuevo Documento
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
@@ -15,12 +23,12 @@
         </div>
     @endif
 
-    <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Título</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Categorías</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Etiquetas</th>
                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
                 </tr>
@@ -31,11 +39,23 @@
                         <td class="px-6 py-4">
                             <div class="text-sm font-bold text-gray-900 dark:text-white">{{ $documento->titulo }}</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{{ $documento->descripcion }}</div>
+                            <div class="mt-1">
+                                <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-bold rounded uppercase">
+                                    {{ $documento->tipo_archivo }}
+                                </span>
+                            </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-bold rounded uppercase">
-                                {{ $documento->tipo_archivo }}
-                            </span>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @foreach($documento->categorias as $categoria)
+                                    <span class="px-2 py-0.5 text-[10px] font-bold rounded border {{ 
+                                        $categoria->tipo === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
+                                        ($categoria->tipo === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
+                                    }}">
+                                        {{ $categoria->nombre }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-wrap gap-1">

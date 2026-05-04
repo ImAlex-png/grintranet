@@ -28,6 +28,8 @@ class StoreDocumentoInstitucionalRequest extends FormRequest
             'tipo_archivo' => 'required|string|in:Video,Documento,Presentación,Imagen,Otros',
             'etiquetas' => 'nullable|array',
             'etiquetas.*' => 'exists:etiquetas,id',
+            'categorias' => 'nullable|array',
+            'categorias.*' => 'exists:categorias,id',
         ];
     }
 
