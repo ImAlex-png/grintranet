@@ -4,11 +4,9 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Documentos Institucionales</h1>
-        @role('admin')
         <a href="{{ route('documentos.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
             + Nuevo Documento
         </a>
-        @endrole
     </div>
 
     @if(session('success'))
@@ -17,59 +15,77 @@
         </div>
     @endif
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Título</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">URL</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Etiquetas</th>
                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
                 </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 @forelse($documentos as $documento)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('documentos.show', $documento) }}" class="text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 transition">
-                                {{ $documento->titulo }}
-                            </a>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-xs">{{ $documento->descripcion }}</div>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">{{ $documento->titulo }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{{ $documento->descripcion }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-bold rounded uppercase">
                                 {{ $documento->tipo_archivo }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <a href="{{ $documento->url }}" target="_blank" class="text-blue-500 hover:text-blue-700 underline">Ver recurso</a>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @foreach($documento->etiquetas as $etiqueta)
+                                    <span class="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold rounded border border-blue-100 dark:border-blue-800">
+                                        #{{ $etiqueta->nombre }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-3">
-                                <a href="{{ route('documentos.show', $documento) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Ver</a>
-                                @role('admin')
-                                <a href="{{ route('documentos.edit', $documento) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400">Editar</a>
-                                <form action="{{ route('documentos.destroy', $documento) }}" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro?')">
+                            <div class="flex justify-end items-center space-x-3">
+                                <a href="{{ $documento->url }}" target="_blank" class="text-blue-600 hover:text-blue-900 dark:text-blue-400" title="Ver enlace">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                                <a href="{{ route('documentos.show', $documento) }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400" title="Detalles">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </a>
+                                <a href="{{ route('documentos.edit', $documento) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400" title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </a>
+                                <form action="{{ route('documentos.destroy', $documento) }}" method="POST" class="inline" onsubmit="return confirm('¿Borrar documento?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400">Eliminar</button>
+                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400" title="Eliminar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
                                 </form>
-                                @endrole
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-10 text-center text-gray-500 dark:text-gray-400">
-                            No hay documentos registrados aún.
-                        </td>
+                        <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No hay documentos institucionales guardados aún.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    <div class="mt-6">
+    <div class="mt-8">
         {{ $documentos->links() }}
     </div>
 </div>

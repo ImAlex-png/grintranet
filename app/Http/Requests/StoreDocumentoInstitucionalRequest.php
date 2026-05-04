@@ -11,7 +11,7 @@ class StoreDocumentoInstitucionalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasRole('admin');
+        return true;
     }
 
     /**
@@ -26,6 +26,8 @@ class StoreDocumentoInstitucionalRequest extends FormRequest
             'descripcion' => 'nullable|string',
             'url' => 'required|url|max:255',
             'tipo_archivo' => 'required|string|in:Video,Documento,Presentación,Imagen,Otros',
+            'etiquetas' => 'nullable|array',
+            'etiquetas.*' => 'exists:etiquetas,id',
         ];
     }
 

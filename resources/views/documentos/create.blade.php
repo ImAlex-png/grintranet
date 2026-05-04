@@ -8,49 +8,58 @@
             <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Nuevo Documento</h1>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-gray-700">
             <form action="{{ route('documentos.store') }}" method="POST">
                 @csrf
                 <div class="space-y-6">
                     <div>
-                        <label for="titulo" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título</label>
-                        <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm p-2 border">
+                        <label for="titulo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Título del Documento</label>
+                        <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required placeholder="Ej: Manual de Convivencia"
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
                         @error('titulo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción</label>
-                        <textarea name="descripcion" id="descripcion" rows="3"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm p-2 border">{{ old('descripcion') }}</textarea>
-                        @error('descripcion') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL del Recurso</label>
-                            <input type="url" name="url" id="url" value="{{ old('url') }}" placeholder="https://..." required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm p-2 border">
-                            @error('url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label for="tipo_archivo" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de Archivo</label>
+                            <label for="tipo_archivo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tipo de Recurso</label>
                             <select name="tipo_archivo" id="tipo_archivo" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm p-2 border">
-                                <option value="">Selecciona un tipo</option>
-                                <option value="Video" {{ old('tipo_archivo') == 'Video' ? 'selected' : '' }}>Video</option>
+                                class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
                                 <option value="Documento" {{ old('tipo_archivo') == 'Documento' ? 'selected' : '' }}>Documento</option>
+                                <option value="Video" {{ old('tipo_archivo') == 'Video' ? 'selected' : '' }}>Video</option>
                                 <option value="Presentación" {{ old('tipo_archivo') == 'Presentación' ? 'selected' : '' }}>Presentación</option>
                                 <option value="Imagen" {{ old('tipo_archivo') == 'Imagen' ? 'selected' : '' }}>Imagen</option>
                                 <option value="Otros" {{ old('tipo_archivo') == 'Otros' ? 'selected' : '' }}>Otros</option>
                             </select>
-                            @error('tipo_archivo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label for="url" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Dirección URL</label>
+                            <input type="url" name="url" id="url" value="{{ old('url') }}" required placeholder="https://..."
+                                class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
+                            @error('url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    <div class="flex justify-end pt-4">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 shadow-lg">
+                    <div>
+                        <label for="descripcion" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Descripción (Opcional)</label>
+                        <textarea name="descripcion" id="descripcion" rows="3" placeholder="Explica brevemente de qué trata este documento..."
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">{{ old('descripcion') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label for="etiquetas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Etiquetas</label>
+                        <select name="etiquetas[]" id="etiquetas" multiple
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3 h-32">
+                            @foreach($etiquetas as $etiqueta)
+                                <option value="{{ $etiqueta->id }}" {{ collect(old('etiquetas'))->contains($etiqueta->id) ? 'selected' : '' }}>
+                                    {{ $etiqueta->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="text-xs text-gray-500 mt-2">Mantén pulsado Ctrl (o Cmd en Mac) para seleccionar varias.</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg transform hover:-translate-y-1">
                             Guardar Documento
                         </button>
                     </div>
@@ -59,4 +68,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Permitir selección múltiple sin pulsar Ctrl
+    document.getElementById('etiquetas').onmousedown = function(e) {
+        e.preventDefault();
+        var scroll = this.scrollTop;
+        e.target.selected = !e.target.selected;
+        setTimeout(() => this.scrollTop = scroll, 0);
+        this.focus();
+    };
+</script>
 @endsection

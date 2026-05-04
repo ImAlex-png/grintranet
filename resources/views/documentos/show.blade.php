@@ -3,42 +3,50 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-3xl mx-auto">
-        <div class="mb-6 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <a href="{{ route('documentos.index') }}" class="text-blue-600 hover:underline">← Volver</a>
+        <div class="mb-8 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="{{ route('documentos.index') }}" class="text-blue-600 hover:bg-blue-50 p-2 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
                 <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Detalle del Documento</h1>
             </div>
-            @role('admin')
-            <a href="{{ route('documentos.edit', $documento) }}" class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-200 transition">Editar</a>
-            @endrole
+            <div class="flex space-x-3">
+                <a href="{{ route('documentos.edit', $documento) }}" class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-200 transition">Editar</a>
+            </div>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8">
-            <div class="mb-6">
-                <h2 class="text-sm uppercase tracking-widest text-gray-500 mb-1">Título</h2>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $documento->titulo }}</p>
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-10 border border-gray-100 dark:border-gray-700">
+            <div class="mb-8">
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 text-xs font-bold uppercase rounded-lg mb-2 inline-block tracking-wider">
+                    {{ $documento->tipo_archivo }}
+                </span>
+                <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white leading-tight mt-2">{{ $documento->titulo }}</h2>
             </div>
 
-            <div class="mb-6">
-                <h2 class="text-sm uppercase tracking-widest text-gray-500 mb-1">Descripción</h2>
-                <p class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ $documento->descripcion ?: 'Sin descripción.' }}</p>
+            <div class="mb-8">
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Descripción</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 whitespace-pre-line">{{ $documento->descripcion ?: 'No hay descripción disponible para este documento.' }}</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div>
-                    <h2 class="text-sm uppercase tracking-widest text-gray-500 mb-1">Tipo de Archivo</h2>
-                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-bold">{{ $documento->tipo_archivo }}</span>
+            <div class="mb-8">
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Etiquetas</h2>
+                <div class="flex flex-wrap gap-3 mt-3">
+                    @forelse($documento->etiquetas as $etiqueta)
+                        <a href="{{ route('etiquetas.show', $etiqueta) }}" class="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 text-sm font-bold rounded-xl border border-indigo-100 dark:border-indigo-800 hover:scale-105 transition transform">
+                            #{{ $etiqueta->nombre }}
+                        </a>
+                    @empty
+                        <span class="text-gray-400 italic text-sm">Este documento no tiene etiquetas asociadas.</span>
+                    @endforelse
                 </div>
-                <div>
-                    <h2 class="text-sm uppercase tracking-widest text-gray-500 mb-1">Fecha de Registro</h2>
-                    <p class="text-gray-700 dark:text-gray-300">{{ $documento->created_at->format('d/m/Y H:i') }}</p>
-                </div>
             </div>
 
-            <div class="border-t pt-6 flex justify-center">
-                <a href="{{ $documento->url }}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full transition duration-300 shadow-xl flex items-center space-x-2">
-                    <span>Acceder al Recurso Externo</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="pt-10 border-t border-gray-100 dark:border-gray-700 mt-10">
+                <a href="{{ $documento->url }}" target="_blank" class="flex items-center justify-center space-x-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-5 px-8 rounded-2xl transition duration-300 shadow-xl hover:shadow-blue-500/30 transform hover:-translate-y-1">
+                    <span class="text-xl">Acceder al Documento</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                 </a>

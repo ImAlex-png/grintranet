@@ -130,6 +130,12 @@
                             Documentos
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('etiquetas.index') }}"
+                            class="nav-link {{ request()->routeIs('etiquetas.*') ? 'active' : '' }}">
+                            Etiquetas
+                        </a>
+                    </li>
 
                     <li style="margin-top: auto;">
                         <form method="POST" action="{{ route('logout') }}">
