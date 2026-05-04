@@ -124,6 +124,12 @@
                             AulaPass
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('documentos.index') }}"
+                            class="nav-link {{ request()->routeIs('documentos.*') ? 'active' : '' }}">
+                            Documentos
+                        </a>
+                    </li>
 
                     <li style="margin-top: auto;">
                         <form method="POST" action="{{ route('logout') }}">
