@@ -8,9 +8,39 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::withCount('documentos')->latest()->paginate(10);
+        $query = Categoria::withCount('documentos');
+
+        // Búsqueda
+        if ($request->filled('buscar')) {
+            $buscar = $request->buscar;
+            $query->where(function($q) use ($buscar) {
+                $q->where('nombre', 'LIKE', "%{$buscar}%")
+                  ->orWhere('tipo', 'LIKE', "%{$buscar}%");
+            });
+        }
+
+        // Filtro por Tipo
+        if ($request->filled('tipos')) {
+            $query->whereIn('tipo', $request->tipos);
+        }
+
+        // Ordenación
+        $sortField = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+        
+        $allowedSorts = ['nombre', 'tipo', 'created_at', 'documentos_count'];
+        if (in_array($sortField, $allowedSorts)) {
+            $query->orderBy($sortField, $direction);
+        }
+
+        $categorias = $query->paginate(10)->withQueryString();
+
+        if ($request->ajax()) {
+            return view('categorias._table', compact('categorias'))->render();
+        }
+
         return view('categorias.index', compact('categorias'));
     }
 

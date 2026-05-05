@@ -8,10 +8,38 @@ use Illuminate\Http\Request;
 
 class EtiquetaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $etiquetas = Etiqueta::withCount('documentos')->latest()->paginate(10);
-        return view('etiquetas.index', compact('etiquetas'));
+        $query = Etiqueta::withCount('documentos');
+
+        // Búsqueda (Solo en el nombre de la etiqueta)
+        if ($request->filled('buscar')) {
+            $buscar = $request->buscar;
+            $query->where('nombre', 'LIKE', "%{$buscar}%");
+        }
+
+        // Filtro por Etiquetas (Selección múltiple)
+        if ($request->filled('tags')) {
+            $query->whereIn('id', $request->tags);
+        }
+
+        // Ordenación
+        $sortField = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+        
+        $allowedSorts = ['nombre', 'created_at', 'documentos_count'];
+        if (in_array($sortField, $allowedSorts)) {
+            $query->orderBy($sortField, $direction);
+        }
+
+        $etiquetas = $query->paginate(10)->withQueryString();
+        $todasEtiquetasParaFiltro = Etiqueta::orderBy('nombre')->get();
+
+        if ($request->ajax()) {
+            return view('etiquetas._table', compact('etiquetas'))->render();
+        }
+
+        return view('etiquetas.index', compact('etiquetas', 'todasEtiquetasParaFiltro'));
     }
 
     public function create()
