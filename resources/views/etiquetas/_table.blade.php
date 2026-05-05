@@ -29,6 +29,10 @@
                 </th>
                 <th class="px-6 py-3 text-right text-xs font-bold text-slate-400 uppercase tracking-wider">Acciones</th>
             </tr>
+
+
+
+            
         </thead>
         <tbody class="divide-y divide-slate-700">
             @forelse($etiquetas as $etiqueta)
