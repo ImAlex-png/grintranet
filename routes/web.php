@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('documentos', DocumentoInstitucionalController::class);
     Route::resource('etiquetas', EtiquetaController::class);
     Route::resource('categorias', CategoriaController::class);
+    Route::resource('tipo-recursos', \App\Http\Controllers\TipoRecursoController::class);
 
     // AulaPass Integration
     Route::middleware(['role:admin|profesor|conserje'])->group(function () {

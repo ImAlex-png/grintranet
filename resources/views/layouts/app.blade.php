@@ -142,6 +142,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('tipo-recursos.index') }}"
+                                    class="nav-link {{ request()->routeIs('tipo-recursos.*') ? 'active' : '' }}">
+                                    <span style="margin-left: 1rem;">Gestor de Recursos</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('etiquetas.index') }}"
                                     class="nav-link {{ request()->routeIs('etiquetas.*') ? 'active' : '' }}">
                                     <span style="margin-left: 1rem;">Etiquetas</span>

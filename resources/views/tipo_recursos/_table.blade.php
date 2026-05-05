@@ -4,7 +4,7 @@
             <tr>
                 <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="nombre">
                     <div class="flex items-center gap-1.5">
-                         Nombre
+                        Nombre
                         <span class="flex flex-col">
                             @if(request('sort') == 'nombre')
                                 <svg class="w-3 h-3 {{ request('direction') == 'asc' ? 'rotate-180' : '' }} text-sky-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -14,23 +14,11 @@
                         </span>
                     </div>
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="tipo">
+                <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="categorias_count">
                     <div class="flex items-center gap-1.5">
-                        Tipo
+                        Categorías vinculadas
                         <span class="flex flex-col">
-                            @if(request('sort') == 'tipo')
-                                <svg class="w-3 h-3 {{ request('direction') == 'asc' ? 'rotate-180' : '' }} text-sky-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                            @else
-                                <svg class="w-3 h-3 text-slate-600 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
-                            @endif
-                        </span>
-                    </div>
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="documentos_count">
-                    <div class="flex items-center gap-1.5">
-                        Documentos vinculados
-                        <span class="flex flex-col">
-                            @if(request('sort') == 'documentos_count')
+                            @if(request('sort') == 'categorias_count')
                                 <svg class="w-3 h-3 {{ request('direction') == 'asc' ? 'rotate-180' : '' }} text-sky-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             @else
                                 <svg class="w-3 h-3 text-slate-600 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
@@ -42,29 +30,24 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-700">
-            @forelse($categorias as $categoria)
+            @forelse($tipo_recursos as $tipo)
                 <tr class="hover:bg-slate-700/30 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span class="font-bold text-gray-900 dark:text-white">
-                            {{ $categoria->nombre }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                            {{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}
+                            {{ $tipo->nombre }}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {{ $categoria->documentos_count }} documentos
+                        {{ $tipo->categorias_count }} categorías
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div class="flex justify-end items-center space-x-3">
-                            <a href="{{ route('categorias.edit', $categoria) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 flex items-center" title="Editar">
+                            <a href="{{ route('tipo-recursos.edit', $tipo) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 flex items-center" title="Editar">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </a>
-                            <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="m-0 flex items-center" onsubmit="return confirm('¿Estás seguro?')">
+                            <form action="{{ route('tipo-recursos.destroy', $tipo) }}" method="POST" class="m-0 flex items-center" onsubmit="return confirm('¿Estás seguro?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 flex items-center" title="Eliminar">
@@ -78,7 +61,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No hay categorías que coincidan con la búsqueda.</td>
+                    <td colspan="3" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No hay tipos de recurso que coincidan con la búsqueda.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -86,5 +69,5 @@
 </div>
 
 <div class="mt-6 ajax-pagination">
-    {{ $categorias->links() }}
+    {{ $tipo_recursos->links() }}
 </div>

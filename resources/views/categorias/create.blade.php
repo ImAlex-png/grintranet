@@ -25,15 +25,15 @@
                     </div>
 
                     <div>
-                        <label for="tipo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tipo de Categoría</label>
-                        <select name="tipo" id="tipo" 
+                        <label for="tipo_recurso_id" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tipo de Categoría (Recurso)</label>
+                        <select name="tipo_recurso_id" id="tipo_recurso_id" 
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required>
                             <option value="">Selecciona un tipo...</option>
-                            <option value="departamento" {{ old('tipo') == 'departamento' ? 'selected' : '' }}>Departamento</option>
-                            <option value="curso" {{ old('tipo') == 'curso' ? 'selected' : '' }}>Curso</option>
-                            <option value="tipo_documento" {{ old('tipo') == 'tipo_documento' ? 'selected' : '' }}>Tipo de Documento</option>
+                            @foreach($tiposRecurso as $tipo)
+                                <option value="{{ $tipo->id }}" {{ old('tipo_recurso_id') == $tipo->id ? 'selected' : '' }}>{{ $tipo->nombre }}</option>
+                            @endforeach
                         </select>
-                        @error('tipo')
+                        @error('tipo_recurso_id')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
