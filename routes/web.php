@@ -11,6 +11,9 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\ScheduleTemplateController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\AusenciaController;
+use App\Http\Controllers\DocumentoInstitucionalController;
+use App\Http\Controllers\EtiquetaController;
+use App\Http\Controllers\CategoriaController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -72,6 +75,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Ausencias
     Route::resource('ausencias', AusenciaController::class);
+
+    // Documentos Institucionales
+    Route::resource('documentos', DocumentoInstitucionalController::class);
+    Route::resource('etiquetas', EtiquetaController::class);
+    Route::resource('categorias', CategoriaController::class);
+
     // AulaPass Integration
     Route::middleware(['role:admin|profesor|conserje'])->group(function () {
 
