@@ -125,16 +125,29 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('documentos.index') }}"
-                            class="nav-link {{ request()->routeIs('documentos.*') ? 'active' : '' }}">
-                            Documentos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('etiquetas.index') }}"
-                            class="nav-link {{ request()->routeIs('etiquetas.*') ? 'active' : '' }}">
-                            Etiquetas
-                        </a>
+                        <div style="padding: 0.75rem 1.5rem; color: #fff; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; opacity: 0.6;">
+                            Gestión Documental
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li>
+                                <a href="{{ route('documentos.index') }}"
+                                    class="nav-link {{ request()->routeIs('documentos.*') ? 'active' : '' }}">
+                                    <span style="margin-left: 1rem;">Documentos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('categorias.index') }}"
+                                    class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}">
+                                    <span style="margin-left: 1rem;">Categorías</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('etiquetas.index') }}"
+                                    class="nav-link {{ request()->routeIs('etiquetas.*') ? 'active' : '' }}">
+                                    <span style="margin-left: 1rem;">Etiquetas</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li style="margin-top: auto;">
