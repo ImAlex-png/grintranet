@@ -57,7 +57,7 @@ class DocumentoInstitucionalController extends Controller
         }
 
         $documentos = $query->paginate(10)->withQueryString();
-        $todasCategorias = Categoria::orderBy('nombre')->get();
+        $todasCategorias = Categoria::with('tipoRecurso')->orderBy('nombre')->get();
         $todasEtiquetas = Etiqueta::orderBy('nombre')->get();
 
         return view('documentos.index', compact('documentos', 'todasCategorias', 'todasEtiquetas'));
@@ -66,7 +66,7 @@ class DocumentoInstitucionalController extends Controller
     public function create()
     {
         $etiquetas = Etiqueta::all();
-        $categorias = Categoria::all();
+        $categorias = Categoria::with('tipoRecurso')->get();
         return view('documentos.create', compact('etiquetas', 'categorias'));
     }
 
@@ -94,7 +94,7 @@ class DocumentoInstitucionalController extends Controller
     public function edit(DocumentoInstitucional $documento)
     {
         $etiquetas = Etiqueta::all();
-        $categorias = Categoria::all();
+        $categorias = Categoria::with('tipoRecurso')->get();
         return view('documentos.edit', compact('documento', 'etiquetas', 'categorias'));
     }
 
