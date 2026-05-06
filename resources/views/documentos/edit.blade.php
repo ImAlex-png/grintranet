@@ -65,7 +65,7 @@
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
                             @foreach($categorias as $categoria)
                                 <option value="{{ $categoria->id }}" {{ $documento->categorias->contains($categoria->id) ? 'selected' : '' }}>
-                                    [{{ ucfirst(str_replace('_', ' ', $categoria->tipo)) }}] {{ $categoria->nombre }}
+                                    [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
                                 </option>
                             @endforeach
                         </select>

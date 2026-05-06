@@ -9,8 +9,8 @@
                 <div class="flex flex-wrap gap-1">
                     @foreach($documento->categorias as $categoria)
                         <span class="px-2 py-0.5 text-[10px] font-bold rounded border {{ 
-                            $categoria->tipo === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
-                            ($categoria->tipo === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
+                            ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
+                            (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
                         }}">
                             {{ $categoria->nombre }}
                         </span>
@@ -66,8 +66,8 @@
                             <div class="flex flex-wrap gap-1">
                                 @forelse($documento->categorias as $categoria)
                                     <a href="{{ route('categorias.show', $categoria) }}" class="px-2 py-0.5 text-[10px] font-bold rounded border transition {{ 
-                                        $categoria->tipo === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100 hover:bg-purple-100' : 
-                                        ($categoria->tipo === 'curso' ? 'bg-green-50 text-green-600 border-green-100 hover:bg-green-100' : 'bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100') 
+                                        ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100 hover:bg-purple-100' : 
+                                        (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-50 text-green-600 border-green-100 hover:bg-green-100' : 'bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100') 
                                     }}">
                                         {{ $categoria->nombre }}
                                     </a>

@@ -115,7 +115,7 @@
                                            class="custom-checkbox"
                                            {{ is_array(request('categorias')) && in_array($categoria->id, request('categorias')) ? 'checked' : '' }}>
                                     <span class="text-xs font-medium text-gray-700 dark:text-gray-200">
-                                        {{ $categoria->nombre }}
+                                        [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
                                     </span>
                                 </label>
                             @endforeach
@@ -223,8 +223,8 @@
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($documento->categorias as $categoria)
                                         <span class="px-2 py-0.5 text-[10px] font-bold rounded border {{ 
-                                            $categoria->tipo === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
-                                            ($categoria->tipo === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
+                                            ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
+                                            (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
                                         }}">
                                             {{ $categoria->nombre }}
                                         </span>
