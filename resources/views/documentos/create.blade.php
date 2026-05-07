@@ -11,6 +11,18 @@
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-gray-700">
             <form action="{{ route('documentos.store') }}" method="POST">
                 @csrf
+                
+                @if($errors->has('etiquetas') || $errors->has('categorias'))
+                    <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-400 rounded-r-xl">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <p class="font-bold text-sm">Atención</p>
+                        </div>
+                        <p class="text-xs mt-1">No puedes dejar el documento sin etiquetas o sin categorías. Por favor, selecciona al menos una de cada.</p>
+                    </div>
+                @endif
                 <div class="space-y-6">
                     <div>
                         <label for="titulo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Título del Documento</label>
@@ -44,7 +56,7 @@
                     </div>
 
                     <div>
-                        <label for="etiquetas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Etiquetas (Opcional)</label>
+                        <label for="etiquetas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Etiquetas</label>
                         <select name="etiquetas[]" id="etiquetas" multiple 
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
                             @foreach($etiquetas as $etiqueta)
@@ -53,11 +65,12 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('etiquetas') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
                     </div>
 
                     <div>
-                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías (Opcional)</label>
+                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías</label>
                         <select name="categorias[]" id="categorias" multiple 
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
                             @foreach($categorias as $categoria)
@@ -66,6 +79,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('categorias') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
                     </div>
 

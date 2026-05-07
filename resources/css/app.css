@@ -306,4 +306,39 @@
     .toast-info {
         border-left: 4px solid var(--primary);
     }
+
+    /* Sidebar Dropdown */
+    .nav-dropdown {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .nav-dropdown.show {
+        max-height: 500px;
+    }
+
+    .dropdown-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .dropdown-arrow {
+        transition: transform 0.3s;
+        opacity: 0.5;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow,
+    .dropdown-toggle:hover .dropdown-arrow {
+        opacity: 1;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
 }

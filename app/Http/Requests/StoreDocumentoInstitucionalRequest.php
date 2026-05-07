@@ -26,9 +26,9 @@ class StoreDocumentoInstitucionalRequest extends FormRequest
             'descripcion' => 'nullable|string',
             'url' => 'required|url|max:255',
             'tipo_archivo' => 'required|string|in:Video,Documento,Presentación,Imagen,Otros',
-            'etiquetas' => 'nullable|array',
+            'etiquetas' => 'required|array|min:1',
             'etiquetas.*' => 'exists:etiquetas,id',
-            'categorias' => 'nullable|array',
+            'categorias' => 'required|array|min:1',
             'categorias.*' => 'exists:categorias,id',
         ];
     }
@@ -44,6 +44,10 @@ class StoreDocumentoInstitucionalRequest extends FormRequest
             'url.url' => 'Debes introducir una URL válida.',
             'tipo_archivo.required' => 'Debes seleccionar un tipo de archivo.',
             'tipo_archivo.in' => 'El tipo de archivo seleccionado no es válido.',
+            'etiquetas.required' => 'El documento debe tener al menos una etiqueta.',
+            'etiquetas.min' => 'El documento debe tener al menos una etiqueta.',
+            'categorias.required' => 'El documento debe tener al menos una categoría.',
+            'categorias.min' => 'El documento debe tener al menos una categoría.',
         ];
     }
 }

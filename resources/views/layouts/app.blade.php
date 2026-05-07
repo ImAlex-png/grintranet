@@ -125,10 +125,13 @@
                         </a>
                     </li>
                     <li>
-                        <div style="padding: 0.75rem 1.5rem; color: #fff; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; opacity: 0.6;">
-                            Gestión Documental
+                        <div class="dropdown-toggle nav-link {{ request()->routeIs(['documentos.*', 'categorias.*', 'tipo-recursos.*', 'etiquetas.*']) ? 'active' : '' }}" onclick="toggleDropdown(this)">
+                            <span>Gestión Documental</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dropdown-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
                         </div>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
+                        <ul class="nav-dropdown {{ request()->routeIs(['documentos.*', 'categorias.*', 'tipo-recursos.*', 'etiquetas.*']) ? 'show' : '' }}">
                             <li>
                                 <a href="{{ route('documentos.index') }}"
                                     class="nav-link {{ request()->routeIs('documentos.*') ? 'active' : '' }}">
