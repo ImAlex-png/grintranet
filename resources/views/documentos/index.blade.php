@@ -49,11 +49,11 @@
 
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Documentos Institucionales</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestor Documental</h1>
         <div class="flex space-x-4">
             @hasanyrole('admin|directiva')
                 <a href="{{ route('tipo-recursos.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
-                    Gestor de Recursos
+                    Recursos
                 </a>
                 <a href="{{ route('categorias.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
                     Categorías
@@ -164,13 +164,14 @@
 
             <!-- Acciones Rápidas -->
             <div class="flex items-center gap-2 ml-auto">
-                @if(request()->anyFilled(['buscar', 'categorias', 'etiquetas']))
-                    <a href="{{ route('documentos.index') }}" class="p-2 text-gray-400 hover:text-red-500 transition-colors" title="Limpiar filtros">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </a>
-                @endif
+                <a href="{{ route('documentos.index') }}" id="btn-reset-filters" 
+                   class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20 {{ request()->anyFilled(['buscar', 'categorias', 'etiquetas']) ? '' : 'hidden' }}" 
+                   title="Limpiar todos los filtros">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    Restablecer filtros
+                </a>
             </div>
         </form>
     </div>
@@ -214,7 +215,7 @@
                         <tr class="hover:bg-slate-700/30 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="text-sm font-bold text-gray-900 dark:text-white">{{ $documento->titulo }}</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{{ Str::limit($documento->descripcion, 50) }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 whitespace-normal break-words max-w-xs">{{ $documento->descripcion }}</div>
                                 <div class="mt-1">
                                     <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-bold rounded uppercase">
                                         {{ $documento->tipo_archivo }}
@@ -322,10 +323,26 @@
                 // Actualizar la URL sin recargar
                 window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
                 
-                // Actualizar contadores de los botones
+                // Actualizar contadores y visibilidad del botón de reset
                 updateBadges(params);
+                updateResetButton(params);
             } catch (error) {
                 console.error('Error actualizando resultados:', error);
+            }
+        }
+
+        function updateResetButton(params) {
+            const btnReset = document.getElementById('btn-reset-filters');
+            if (!btnReset) return;
+
+            const hasFilters = params.get('buscar') || 
+                              params.getAll('categorias[]').length > 0 || 
+                              params.getAll('etiquetas[]').length > 0;
+            
+            if (hasFilters) {
+                btnReset.classList.remove('hidden');
+            } else {
+                btnReset.classList.add('hidden');
             }
         }
 

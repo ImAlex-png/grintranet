@@ -78,7 +78,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Documentos Institucionales - Acceso de consulta para todos los autenticados
     Route::get('documentos', [DocumentoInstitucionalController::class, 'index'])->name('documentos.index');
-    Route::get('documentos/{documento}', [DocumentoInstitucionalController::class, 'show'])->name('documentos.show');
 
     // Gestión Documental - Solo Admin y Directiva pueden crear, editar o borrar
     Route::middleware(['role:admin|directiva'])->group(function () {
@@ -87,6 +86,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('categorias', CategoriaController::class);
         Route::resource('tipo-recursos', \App\Http\Controllers\TipoRecursoController::class);
     });
+
+    // Esta ruta debe ir después de la definición del resource para no capturar 'documentos/create'
+    Route::get('documentos/{documento}', [DocumentoInstitucionalController::class, 'show'])->name('documentos.show');
 
     // AulaPass Integration
     Route::middleware(['role:admin|profesor|conserje'])->group(function () {

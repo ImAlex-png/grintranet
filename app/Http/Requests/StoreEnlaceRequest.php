@@ -20,7 +20,16 @@ class StoreEnlaceRequest extends FormRequest
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'url' => 'required|url|max:255',
-            'etiquetas' => 'nullable|string', // Lo recibiremos como string separado por comas
+            'etiquetas' => 'nullable|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'titulo.required' => 'El título es obligatorio.',
+            'url.required' => 'La URL es obligatoria.',
+            'url.url' => 'Debes introducir una URL válida.',
         ];
     }
 }

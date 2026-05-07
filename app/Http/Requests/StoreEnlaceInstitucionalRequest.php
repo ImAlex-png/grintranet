@@ -24,4 +24,14 @@ class StoreEnlaceInstitucionalRequest extends FormRequest
             'etiquetas.*' => 'exists:etiquetas,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'titulo.required' => 'El título es obligatorio.',
+            'url.required' => 'La URL es obligatoria.',
+            'url.url' => 'Debes introducir una URL válida.',
+            'etiquetas.*.exists' => 'Una de las etiquetas seleccionadas no es válida.',
+        ];
+    }
 }

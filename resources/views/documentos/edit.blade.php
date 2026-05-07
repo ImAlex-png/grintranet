@@ -32,30 +32,25 @@
                         @error('titulo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="tipo_archivo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tipo de Recurso</label>
-                            <select name="tipo_archivo" id="tipo_archivo" required
-                                class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
-                                <option value="Documento" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Documento' ? 'selected' : '' }}>Documento</option>
-                                <option value="Video" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Video' ? 'selected' : '' }}>Video</option>
-                                <option value="Presentación" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Presentación' ? 'selected' : '' }}>Presentación</option>
-                                <option value="Imagen" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Imagen' ? 'selected' : '' }}>Imagen</option>
-                                <option value="Otros" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Otros' ? 'selected' : '' }}>Otros</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="url" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Dirección URL</label>
-                            <input type="url" name="url" id="url" value="{{ old('url', $documento->url) }}" required
-                                class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
-                            @error('url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        </div>
+                    <div>
+                        <label for="url" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Dirección URL</label>
+                        <input type="url" name="url" id="url" value="{{ old('url', $documento->url) }}" required
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
+                        @error('url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="descripcion" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Descripción (Opcional)</label>
-                        <textarea name="descripcion" id="descripcion" rows="3"
-                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">{{ old('descripcion', $documento->descripcion) }}</textarea>
+                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías</label>
+                        <select name="categorias[]" id="categorias" multiple 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}" {{ $documento->categorias->contains($categoria->id) ? 'selected' : '' }}>
+                                    [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('categorias') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
                     </div>
 
                     <div>
@@ -73,21 +68,25 @@
                     </div>
 
                     <div>
-                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías</label>
-                        <select name="categorias[]" id="categorias" multiple 
-                            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
-                            @foreach($categorias as $categoria)
-                                <option value="{{ $categoria->id }}" {{ $documento->categorias->contains($categoria->id) ? 'selected' : '' }}>
-                                    [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
-                                </option>
-                            @endforeach
+                        <label for="tipo_archivo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tipo de archivo</label>
+                        <select name="tipo_archivo" id="tipo_archivo" required
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">
+                            <option value="Documento" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Documento' ? 'selected' : '' }}>Documento</option>
+                            <option value="Video" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Video' ? 'selected' : '' }}>Video</option>
+                            <option value="Presentación" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Presentación' ? 'selected' : '' }}>Presentación</option>
+                            <option value="Imagen" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Imagen' ? 'selected' : '' }}>Imagen</option>
+                            <option value="Otros" {{ old('tipo_archivo', $documento->tipo_archivo) == 'Otros' ? 'selected' : '' }}>Otros</option>
                         </select>
-                        @error('categorias') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        <p class="mt-2 text-xs text-gray-500 italic">Haz clic para seleccionar/deseleccionar. No necesitas Ctrl.</p>
+                    </div>
+
+                    <div>
+                        <label for="descripcion" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Descripción (Opcional)</label>
+                        <textarea name="descripcion" id="descripcion" rows="3"
+                            class="w-full rounded-xl border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition p-3">{{ old('descripcion', $documento->descripcion) }}</textarea>
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg transform hover:-translate-y-1">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg transform hover:-translate-y-1">
                             Actualizar Documento
                         </button>
                     </div>

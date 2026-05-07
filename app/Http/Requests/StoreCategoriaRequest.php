@@ -20,4 +20,14 @@ class StoreCategoriaRequest extends FormRequest
             'tipo_recurso_id' => 'required|exists:tipo_recursos,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre de la categoría es obligatorio.',
+            'nombre.unique' => 'Ya existe una categoría con este nombre.',
+            'tipo_recurso_id.required' => 'Debes seleccionar un tipo de recurso.',
+            'tipo_recurso_id.exists' => 'el tipo de recurso seleccionado no es válido.',
+        ];
+    }
 }

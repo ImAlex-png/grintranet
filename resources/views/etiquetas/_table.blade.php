@@ -43,7 +43,7 @@
                         </span>
                     </td>
                     <td class="px-6 py-4">
-                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-1">{{ $etiqueta->descripcion ?: 'Sin descripción' }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 whitespace-normal break-words max-w-xs">{{ $etiqueta->descripcion ?: 'Sin descripción' }}</p>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {{ $etiqueta->documentos_count }} documentos

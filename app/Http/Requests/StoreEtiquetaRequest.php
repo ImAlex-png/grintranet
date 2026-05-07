@@ -23,4 +23,13 @@ class StoreEtiquetaRequest extends FormRequest
             'descripcion' => 'nullable|string|max:255',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre de la etiqueta es obligatorio.',
+            'nombre.unique' => 'Ya existe una etiqueta con este nombre.',
+            'descripcion.max' => 'La descripción no puede superar los 255 caracteres.',
+        ];
+    }
 }

@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
         <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Nuevo Tipo de Recurso</h1>
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Nuevo Recurso</h1>
             <a href="{{ route('tipo-recursos.index') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition">
                 &larr; Volver
             </a>
@@ -26,7 +26,7 @@
 
                     <div class="pt-4">
                         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg transform hover:-translate-y-1">
-                            Guardar Tipo
+                            Guardar Recurso
                         </button>
                     </div>
                 </div>

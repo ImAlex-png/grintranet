@@ -44,6 +44,9 @@ class TipoRecursoController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:100|unique:tipo_recursos,nombre',
+        ], [
+            'nombre.required' => 'El nombre del recurso es obligatorio.',
+            'nombre.unique' => 'Ya existe un recurso con este nombre.',
         ]);
         TipoRecurso::create($validated);
         return redirect()->route('tipo-recursos.index')->with('success', 'Tipo de Recurso creado correctamente.');
@@ -58,6 +61,9 @@ class TipoRecursoController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:100|unique:tipo_recursos,nombre,' . $tipo_recurso->id,
+        ], [
+            'nombre.required' => 'El nombre del recurso es obligatorio.',
+            'nombre.unique' => 'Ya existe un recurso con este nombre.',
         ]);
         $tipo_recurso->update($validated);
         return redirect()->route('tipo-recursos.index')->with('success', 'Tipo de Recurso actualizado correctamente.');

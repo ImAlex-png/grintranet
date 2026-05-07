@@ -22,14 +22,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-white">Gestor de Recursos</h1>
+            <h1 class="text-3xl font-bold text-white">Recursos</h1>
             <p class="text-slate-400 mt-1">Organiza y gestiona los tipos de categorías para los documentos.</p>
         </div>
-        <a href="{{ route('tipo-recursos.create') }}" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-6 rounded-xl transition duration-300 shadow-lg flex items-center gap-2">
+        <a href="{{ route('tipo-recursos.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl transition duration-300 shadow-lg flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Nuevo Tipo
+            Nuevo Recurso
         </a>
     </div>
 
@@ -57,13 +57,14 @@
             </div>
 
             <!-- Limpiar -->
-            @if(request()->filled('buscar'))
-                <a href="{{ route('tipo-recursos.index') }}" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all" title="Limpiar filtros">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </a>
-            @endif
+            <a href="{{ route('tipo-recursos.index') }}" id="btn-reset-filters" 
+               class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-500 hover:text-red-400 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20 {{ request()->filled('buscar') ? '' : 'hidden' }}" 
+               title="Limpiar todos los filtros">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Restablecer filtros
+            </a>
         </form>
     </div>
 
@@ -90,9 +91,23 @@
                 const html = await response.text();
                 tableContainer.innerHTML = html;
                 window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+                updateResetButton(params);
                 initPagination();
             } catch (error) {
                 console.error('Error al filtrar:', error);
+            }
+        }
+
+        function updateResetButton(params) {
+            const btnReset = document.getElementById('btn-reset-filters');
+            if (!btnReset) return;
+
+            const hasFilters = params.get('buscar') && params.get('buscar').length > 0;
+            
+            if (hasFilters) {
+                btnReset.classList.remove('hidden');
+            } else {
+                btnReset.classList.add('hidden');
             }
         }
 
