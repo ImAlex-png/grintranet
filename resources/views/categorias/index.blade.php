@@ -50,14 +50,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-white">Categorías</h1>
-            <p class="text-slate-400 mt-1">Organiza y gestiona los tipos de documentos institucionales.</p>
+            <h1 class="text-3xl font-bold text-white">Carpetas</h1>
+            <p class="text-slate-400 mt-1">Organiza y gestiona las carpetas para los documentos institucionales.</p>
         </div>
         <a href="{{ route('categorias.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl transition duration-300 shadow-lg flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Nueva Categoría
+            Nueva Carpeta
         </a>
     </div>
 
@@ -80,42 +80,16 @@
                     </svg>
                 </div>
                 <input type="text" name="buscar" id="buscar" value="{{ request('buscar') }}" 
-                       placeholder="Buscar categoría..." 
+                       placeholder="Buscar carpeta..." 
                        class="filter-input w-full pl-10 rounded-xl text-sm py-2.5">
             </div>
 
-            <!-- Tipos Dropdown -->
-            <div class="relative dropdown-container">
-                <button type="button" class="dropdown-trigger filter-input flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm min-w-[140px] text-gray-300 hover:bg-slate-700 transition-colors">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
-                    </svg>
-                    <span>Tipos</span>
-                    @if(request()->filled('tipos'))
-                        <span class="ml-auto bg-sky-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{{ count(request('tipos')) }}</span>
-                    @endif
-                    <svg class="w-3 h-3 ml-1 text-gray-400 transition-transform arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </button>
-                <div class="dropdown-content shadow-xl">
-                    <div class="p-3 space-y-2">
-                        @foreach($tiposRecurso as $tipo)
-                            <label class="flex items-center gap-3 p-2 hover:bg-blue-900/30 rounded-lg cursor-pointer transition-all">
-                                <input type="checkbox" name="tipos[]" value="{{ $tipo->id }}" 
-                                       class="custom-checkbox"
-                                       {{ is_array(request('tipos')) && in_array($tipo->id, request('tipos')) ? 'checked' : '' }}>
-                                <span class="text-xs font-medium text-gray-200">{{ $tipo->nombre }}</span>
-                            </label>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+
 
 
             <!-- Limpiar -->
             <a href="{{ route('categorias.index') }}" id="btn-reset-filters" 
-               class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-500 hover:text-red-400 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20 {{ request()->anyFilled(['buscar', 'tipos']) ? '' : 'hidden' }}" 
+               class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-500 hover:text-red-400 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20 {{ request()->filled('buscar') ? '' : 'hidden' }}" 
                title="Limpiar todos los filtros">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -190,8 +164,7 @@
             const btnReset = document.getElementById('btn-reset-filters');
             if (!btnReset) return;
 
-            const hasFilters = params.get('buscar') || 
-                              params.getAll('tipos[]').length > 0;
+            const hasFilters = params.get('buscar');
             
             if (hasFilters) {
                 btnReset.classList.remove('hidden');

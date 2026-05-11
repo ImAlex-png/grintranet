@@ -52,11 +52,9 @@
         <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestor Documental</h1>
         <div class="flex space-x-4">
             @hasanyrole('admin|directiva')
-                <a href="{{ route('tipo-recursos.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
-                    Recursos
-                </a>
+
                 <a href="{{ route('categorias.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
-                    Categorías
+                    Carpetas
                 </a>
                 <a href="{{ route('etiquetas.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-sm border border-gray-200">
                     Etiquetas
@@ -97,7 +95,7 @@
                     <svg class="w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
-                    <span class="pointer-events-none">Categorías</span>
+                    <span class="pointer-events-none">Carpetas</span>
                     @if(request()->filled('categorias'))
                         <span class="ml-auto bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-full pointer-events-none">{{ count(request('categorias')) }}</span>
                     @endif
@@ -107,17 +105,17 @@
                 </button>
                 <div class="dropdown-content shadow-xl">
                     <div class="p-2 border-b border-gray-100 dark:border-gray-700">
-                        <input type="text" class="dropdown-search-input w-full px-3 py-1.5 text-xs rounded-lg border-none bg-gray-50 dark:bg-gray-700 focus:ring-1 focus:ring-blue-500" placeholder="Buscar categoría...">
+                        <input type="text" class="dropdown-search-input w-full px-3 py-1.5 text-xs rounded-lg border-none bg-gray-50 dark:bg-gray-700 focus:ring-1 focus:ring-blue-500" placeholder="Buscar carpeta...">
                     </div>
                     <div class="dropdown-scroll-container">
                         <div class="grid grid-cols-1 gap-1">
-                            @foreach($todasCategorias as $categoria)
+                            @foreach($todasCarpetas as $categoria)
                                 <label class="flex items-center gap-3 p-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg cursor-pointer transition-all group/item">
                                     <input type="checkbox" name="categorias[]" value="{{ $categoria->id }}" 
                                            class="custom-checkbox"
                                            {{ is_array(request('categorias')) && in_array($categoria->id, request('categorias')) ? 'checked' : '' }}>
                                     <span class="text-xs font-medium text-gray-700 dark:text-gray-200">
-                                        [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
+                                        {{ $categoria->nombre }}
                                     </span>
                                 </label>
                             @endforeach
@@ -193,7 +191,7 @@
                                 </span>
                             </div>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Categorías</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Carpetas</th>
                         <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Etiquetas</th>
                         <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors group" onclick="updateSort('created_at')">
                             <div class="flex items-center gap-1.5">
@@ -225,10 +223,7 @@
                             <td class="px-6 py-4">
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($documento->categorias as $categoria)
-                                        <span class="px-2 py-0.5 text-[10px] font-bold rounded border {{ 
-                                            ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-500/10 text-white border-purple-500/20' : 
-                                            (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-500/10 text-white border-green-500/20' : 'bg-orange-500/10 text-white border-orange-500/20') 
-                                        }}">
+                                        <span class="px-2 py-0.5 text-[10px] font-bold rounded border bg-blue-500/10 text-white border-blue-500/20">
                                             {{ $categoria->nombre }}
                                         </span>
                                     @endforeach

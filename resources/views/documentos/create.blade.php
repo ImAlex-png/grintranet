@@ -20,7 +20,7 @@
                             </svg>
                             <p class="font-bold text-sm">Atención</p>
                         </div>
-                        <p class="text-xs mt-1">No puedes dejar el documento sin etiquetas o sin categorías. Por favor, selecciona al menos una de cada.</p>
+                        <p class="text-xs mt-1">No puedes dejar el documento sin etiquetas o sin carpetas. Por favor, selecciona al menos una de cada.</p>
                     </div>
                 @endif
                 <div class="space-y-6">
@@ -39,12 +39,12 @@
                     </div>
 
                     <div>
-                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categorías</label>
+                        <label for="categorias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Carpetas</label>
                         <select name="categorias[]" id="categorias" multiple 
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition h-32">
                             @foreach($categorias as $categoria)
                                 <option value="{{ $categoria->id }}" {{ collect(old('categorias'))->contains($categoria->id) ? 'selected' : '' }}>
-                                    [{{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}] {{ $categoria->nombre }}
+                                    {{ $categoria->nombre }}
                                 </option>
                             @endforeach
                         </select>

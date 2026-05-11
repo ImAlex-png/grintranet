@@ -10,47 +10,35 @@ class CategoriaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Categoria::with(['tipoRecurso'])->withCount('documentos');
+        $query = Categoria::with(['parent'])->withCount('documentos');
 
         // Búsqueda
         if ($request->filled('buscar')) {
-            $buscar = $request->buscar;
-            $query->where(function($q) use ($buscar) {
-                $q->where('nombre', 'LIKE', "%{$buscar}%")
-                  ->orWhereHas('tipoRecurso', function($q) use ($buscar) {
-                      $q->where('nombre', 'LIKE', "%{$buscar}%");
-                  });
-            });
-        }
-
-        // Filtro por Tipo
-        if ($request->filled('tipos')) {
-            $query->whereIn('tipo_recurso_id', $request->tipos);
+            $query->where('nombre', 'LIKE', "%{$request->buscar}%");
         }
 
         // Ordenación
         $sortField = $request->get('sort', 'created_at');
         $direction = $request->get('direction', 'desc');
         
-        $allowedSorts = ['nombre', 'tipo_recurso_id', 'created_at', 'documentos_count'];
+        $allowedSorts = ['nombre', 'created_at', 'documentos_count'];
         if (in_array($sortField, $allowedSorts)) {
             $query->orderBy($sortField, $direction);
         }
 
-        $categorias = $query->paginate(10)->withQueryString();
-        $tiposRecurso = \App\Models\TipoRecurso::all();
+        $carpetas = $query->paginate(10)->withQueryString();
 
         if ($request->ajax()) {
-            return view('categorias._table', compact('categorias'))->render();
+            return view('categorias._table', compact('carpetas'))->render();
         }
 
-        return view('categorias.index', compact('categorias', 'tiposRecurso'));
+        return view('categorias.index', compact('carpetas'));
     }
 
     public function create()
     {
-        $tiposRecurso = \App\Models\TipoRecurso::all();
-        return view('categorias.create', compact('tiposRecurso'));
+        $carpetasPadre = Categoria::orderBy('nombre')->get();
+        return view('categorias.create', compact('carpetasPadre'));
     }
 
     public function store(StoreCategoriaRequest $request)
@@ -67,8 +55,8 @@ class CategoriaController extends Controller
 
     public function edit(Categoria $categoria)
     {
-        $tiposRecurso = \App\Models\TipoRecurso::all();
-        return view('categorias.edit', compact('categoria', 'tiposRecurso'));
+        $carpetasPadre = Categoria::where('id', '!=', $categoria->id)->orderBy('nombre')->get();
+        return view('categorias.edit', compact('categoria', 'carpetasPadre'));
     }
 
     public function update(StoreCategoriaRequest $request, Categoria $categoria)

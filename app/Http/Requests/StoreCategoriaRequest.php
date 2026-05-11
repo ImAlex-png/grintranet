@@ -17,7 +17,7 @@ class StoreCategoriaRequest extends FormRequest
 
         return [
             'nombre' => 'required|string|max:100|unique:categorias,nombre,' . $id,
-            'tipo_recurso_id' => 'required|exists:tipo_recursos,id',
+            'parent_id' => 'nullable|exists:categorias,id',
         ];
     }
 
