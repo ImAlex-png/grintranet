@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-    protected $fillable = ['nombre', 'tipo_recurso_id'];
+    protected $fillable = ['nombre', 'tipo_recurso_id', 'parent_id'];
+
+    public function parent()
+    {
+        return $this->belongsTo(Categoria::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Categoria::class, 'parent_id');
+    }
 
     public function tipoRecurso()
     {

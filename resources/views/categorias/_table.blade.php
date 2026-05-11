@@ -14,11 +14,11 @@
                         </span>
                     </div>
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="tipo">
+                <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="parent_id">
                     <div class="flex items-center gap-1.5">
-                        Tipo
+                        Carpeta Superior
                         <span class="flex flex-col">
-                            @if(request('sort') == 'tipo')
+                            @if(request('sort') == 'parent_id')
                                 <svg class="w-3 h-3 {{ request('direction') == 'asc' ? 'rotate-180' : '' }} text-sky-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             @else
                                 <svg class="w-3 h-3 text-slate-600 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
@@ -26,6 +26,7 @@
                         </span>
                     </div>
                 </th>
+
                 <th class="px-6 py-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-sky-400 transition-colors sortable-header group" data-sort="documentos_count">
                     <div class="flex items-center gap-1.5">
                         Documentos vinculados
@@ -42,18 +43,23 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-700">
-            @forelse($categorias as $categoria)
+            @forelse($carpetas as $categoria)
                 <tr class="hover:bg-slate-700/30 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="font-bold text-gray-900 dark:text-white">
+                        <span class="font-bold text-white">
                             {{ $categoria->nombre }}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                            {{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}
-                        </span>
+                        @if($categoria->parent)
+                            <span class="px-2 py-1 text-xs font-bold rounded-full bg-slate-700 text-slate-300 border border-slate-600">
+                                {{ $categoria->parent->nombre }}
+                            </span>
+                        @else
+                            <span class="text-xs text-slate-500 italic">Carpeta raíz</span>
+                        @endif
                     </td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {{ $categoria->documentos_count }} documentos
                     </td>
@@ -78,7 +84,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No hay categorías que coincidan con la búsqueda.</td>
+                    <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No hay carpetas que coincidan con la búsqueda.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -86,5 +92,5 @@
 </div>
 
 <div class="mt-6 ajax-pagination">
-    {{ $categorias->links() }}
+    {{ $carpetas->links() }}
 </div>

@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('documentos', DocumentoInstitucionalController::class)->except(['index', 'show']);
         Route::resource('etiquetas', EtiquetaController::class);
         Route::resource('categorias', CategoriaController::class);
-        Route::resource('tipo-recursos', \App\Http\Controllers\TipoRecursoController::class);
+        // Route::resource('tipo-recursos', \App\Http\Controllers\TipoRecursoController::class);
     });
 
     // Esta ruta debe ir después de la definición del resource para no capturar 'documentos/create'

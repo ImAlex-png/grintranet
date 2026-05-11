@@ -142,15 +142,10 @@
                             <li>
                                 <a href="{{ route('categorias.index') }}"
                                     class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}">
-                                    <span style="margin-left: 1rem;">Categorías</span>
+                                    <span style="margin-left: 1rem;">Carpetas</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('tipo-recursos.index') }}"
-                                    class="nav-link {{ request()->routeIs('tipo-recursos.*') ? 'active' : '' }}">
-                                    <span style="margin-left: 1rem;">Recursos</span>
-                                </a>
-                            </li>
+
                             <li>
                                 <a href="{{ route('etiquetas.index') }}"
                                     class="nav-link {{ request()->routeIs('etiquetas.*') ? 'active' : '' }}">
