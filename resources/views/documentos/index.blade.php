@@ -214,7 +214,7 @@
                     @forelse($documentos as $documento)
                         <tr class="hover:bg-slate-700/30 transition-colors">
                             <td class="px-6 py-4">
-                                <div class="text-sm font-bold text-gray-900 dark:text-white">{{ $documento->titulo }}</div>
+                                <div class="text-sm font-bold text-white">{{ $documento->titulo }}</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400 whitespace-normal break-words max-w-xs">{{ $documento->descripcion }}</div>
                                 <div class="mt-1">
                                     <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-[10px] font-bold rounded uppercase">
@@ -226,8 +226,8 @@
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($documento->categorias as $categoria)
                                         <span class="px-2 py-0.5 text-[10px] font-bold rounded border {{ 
-                                            ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
-                                            (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-orange-50 text-orange-600 border-orange-100') 
+                                            ($categoria->tipoRecurso->nombre ?? '') === 'departamento' ? 'bg-purple-500/10 text-white border-purple-500/20' : 
+                                            (($categoria->tipoRecurso->nombre ?? '') === 'curso' ? 'bg-green-500/10 text-white border-green-500/20' : 'bg-orange-500/10 text-white border-orange-500/20') 
                                         }}">
                                             {{ $categoria->nombre }}
                                         </span>
@@ -237,7 +237,7 @@
                             <td class="px-6 py-4">
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($documento->etiquetas as $etiqueta)
-                                        <span class="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold rounded border border-blue-100 dark:border-blue-800">
+                                        <span class="px-2 py-0.5 bg-blue-500/10 text-white text-[10px] font-bold rounded border border-blue-500/20">
                                             #{{ $etiqueta->nombre }}
                                         </span>
                                     @endforeach

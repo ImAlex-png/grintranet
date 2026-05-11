@@ -33,7 +33,7 @@
             @forelse($tipo_recursos as $tipo)
                 <tr class="hover:bg-slate-700/30 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="font-bold text-gray-900 dark:text-white">
+                        <span class="font-bold text-white">
                             {{ $tipo->nombre }}
                         </span>
                     </td>

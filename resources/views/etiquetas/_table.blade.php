@@ -38,7 +38,7 @@
             @forelse($etiquetas as $etiqueta)
                 <tr class="hover:bg-slate-700/30 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-bold rounded-full">
+                        <span class="px-3 py-1 bg-indigo-50/10 text-white font-bold rounded-full border border-indigo-500/20">
                             #{{ $etiqueta->nombre }}
                         </span>
                     </td>

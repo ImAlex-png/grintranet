@@ -45,12 +45,12 @@
             @forelse($categorias as $categoria)
                 <tr class="hover:bg-slate-700/30 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="font-bold text-gray-900 dark:text-white">
+                        <span class="font-bold text-white">
                             {{ $categoria->nombre }}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                        <span class="px-2 py-1 text-xs font-bold rounded-full bg-blue-100/10 text-white border border-blue-500/20">
                             {{ $categoria->tipoRecurso->nombre ?? 'Sin tipo' }}
                         </span>
                     </td>
